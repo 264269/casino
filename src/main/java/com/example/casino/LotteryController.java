@@ -56,4 +56,8 @@ public class LotteryController {
 
         return new ResponseEntity<>(winnerResponse, HttpStatus.OK);
     }
+
+    public int getRandomFromRandomOrg() {
+        return 0;
+    }
 }
