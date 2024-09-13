@@ -1,15 +1,20 @@
-package com.example.casino;
+package com.example.casino.response;
 
+import com.example.casino.data.ParticipantDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class ParticipantResponse {
+public class ParticipantListResponse {
 
     @JsonProperty(value = "participants", required = true)
     List<ParticipantDTO> participantList;
 
-    public ParticipantResponse() {
+    public ParticipantListResponse() {
+    }
+
+    public ParticipantListResponse(List<ParticipantDTO> participantList) {
+        this.participantList = participantList;
     }
 
     public List<ParticipantDTO> getParticipantList() {

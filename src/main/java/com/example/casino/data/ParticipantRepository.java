@@ -1,7 +1,5 @@
-package com.example.casino;
+package com.example.casino.data;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ParticipantRepository extends MongoRepository<Participant, String> { }

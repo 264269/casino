@@ -1,4 +1,4 @@
-package com.example.casino;
+package com.example.casino.data;
 
 import org.springframework.data.annotation.Id;
 
