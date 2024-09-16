@@ -30,4 +30,12 @@ public class Winner {
     public void setPrize(int prize) {
         this.prize = prize;
     }
+
+    @Override
+    public String toString() {
+        return "Winner{" +
+                "id='" + id + '\'' +
+                ", prize=" + prize +
+                '}';
+    }
 }

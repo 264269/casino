@@ -45,4 +45,12 @@ public class Participant {
     public String getCity() {
         return city;
     }
+
+    @Override
+    public String toString() {
+        return "Participant{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

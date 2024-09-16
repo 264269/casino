@@ -4,6 +4,8 @@ import com.example.casino.data.*;
 import com.example.casino.response.ParticipantListResponse;
 import com.example.casino.response.WinnerListResponse;
 import com.example.casino.response.WinnerResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CasinoServiceImpl implements CasinoService {
@@ -20,6 +23,9 @@ public class CasinoServiceImpl implements CasinoService {
     ParticipantRepository participantRepository;
     @Autowired
     WinnerRepository winnerRepository;
+
+    Logger logger = LoggerFactory.getLogger(CasinoServiceImpl.class);
+
 
     @Override
     public void addParticipant(String name, int age, String city) {
@@ -70,58 +76,55 @@ public class CasinoServiceImpl implements CasinoService {
         List<Winner> winnerList = winnerRepository.findAll();
 
         //get participants info
-        List<Participant> participantList
-                = participantRepository.findAllById(
-                        winnerList.stream().map(Winner::getId).toList()
-        );
+        Map<String, Participant> participantList =
+                participantRepository
+                        .findAllById(
+                                winnerList
+                                        .stream()
+                                        .map(Winner::getId)
+                                        .toList()
+                        )
+                        .stream()
+                        .collect(Collectors.toMap(Participant::getId, p -> p));
 
-        for (Winner w : winnerList) {
-            System.out.println(w.getId());
-        }
+//        logger.debug(
+//                winnerList
+//                        .stream()
+//                        .map(p -> p.toString())
+//                        .collect(Collectors.joining("\n", "Showing list of winners:\n", ""))
+//        );
+//
+//        logger.debug(
+//                participantList.values()
+//                        .stream()
+//                        .map(p -> p.toString())
+//                        .collect(Collectors.joining("\n", "Showing list of participants:\n", ""))
+//        );
 
-        for (Participant p : participantList) {
-            System.out.println(p.getId());
-        }
+//        create winner list
+        List<WinnerDTO> winnerDTOList = winnerList
+                .stream()
+                .map(winner -> {
+                    Participant participant = participantList.get(winner.getId());
+                    return new WinnerDTO(participant, winner.getPrize());
+                }).toList();
 
-        //create winner list
-        List<WinnerDTO> winnerDTOList = new ArrayList<>();
-        for (Participant p : participantList) {
-            Winner winner = winnerList.stream().filter(x -> x.getId().equals(p.getId())).toList().get(0);
-            winnerDTOList.add(
-                    new WinnerDTO(
-                            p,
-                            winner.getPrize()
-                    )
-            );
-        }
-//        for (Participant p : participantList) {
-//            winnerDTOList.add(
-//                    new WinnerDTO(
-//                            p,
-//                            winnerList.stream().filter(x -> x.getId() == p.getId()).toList().get(0).getPrize()
-//                    )
-//            );
-//        }
-
-        //create response
+//        create response
         WinnerListResponse winnerListResponse = new WinnerListResponse(winnerDTOList);
 
+//        return new ResponseEntity<>(winnerListResponse, HttpStatus.OK);
         return new ResponseEntity<>(winnerListResponse, HttpStatus.OK);
     }
 
     public int getCasinoWinner(int participants) {
-        return getRandomDecimalInteger(1, 0, participants - 1);
+        return getOneRandomInt(0, participants - 1);
     }
 
     public int getCasinoInteger() {
-        return getRandomDecimalInteger(1, 1, 1000);
+        return getOneRandomInt(1, 1000);
     }
 
-    public int getRandomDecimalInteger(
-            int num
-            ,int min
-            ,int max
-        ) {
+    public int getOneRandomInt(int min, int max) {
         Integer result;
         try {
             RestClient restClient = RestClient.create();
@@ -133,7 +136,7 @@ public class CasinoServiceImpl implements CasinoService {
                     "&base=%s" +
                     "&format=%s" +
                     "&rnd=%s";
-            String uriResult = String.format(uriTemplate, num, min, max, 1, 10, "plain", "new");
+            String uriResult = String.format(uriTemplate, 1, min, max, 1, 10, "plain", "new");
             URI uri = new URI(uriResult);
             String requestResult =restClient.get().uri(uri).retrieve().body(String.class).trim();
             result = Integer.parseInt(requestResult);
