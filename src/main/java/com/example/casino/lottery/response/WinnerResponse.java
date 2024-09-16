@@ -1,7 +1,7 @@
-package com.example.casino.response;
+package com.example.casino.lottery.response;
 
-import com.example.casino.data.Participant;
-import com.example.casino.data.ParticipantDTO;
+import com.example.casino.lottery.data.Participant;
+import com.example.casino.lottery.data.ParticipantDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WinnerResponse {

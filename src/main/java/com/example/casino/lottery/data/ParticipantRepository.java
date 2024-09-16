@@ -1,4 +1,4 @@
-package com.example.casino.data;
+package com.example.casino.lottery.data;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

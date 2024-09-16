@@ -1,4 +1,4 @@
-package com.example.casino.data;
+package com.example.casino.lottery.data;
 
 public record WinnerDTO(String name, int age, String city, int prize) {
     public WinnerDTO(Participant participant, int prize) {

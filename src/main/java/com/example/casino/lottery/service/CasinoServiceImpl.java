@@ -1,9 +1,10 @@
-package com.example.casino.service;
+package com.example.casino.lottery.service;
 
-import com.example.casino.data.*;
-import com.example.casino.response.ParticipantListResponse;
-import com.example.casino.response.WinnerListResponse;
-import com.example.casino.response.WinnerResponse;
+import com.example.casino.lottery.data.*;
+import com.example.casino.lottery.response.ParticipantListResponse;
+import com.example.casino.lottery.response.WinnerListResponse;
+import com.example.casino.lottery.response.WinnerResponse;
+import com.example.casino.random.service.RandomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class CasinoServiceImpl implements CasinoService {
     ParticipantRepository participantRepository;
     @Autowired
     WinnerRepository winnerRepository;
+    @Autowired
+    RandomService randomService;
 
     Logger logger = LoggerFactory.getLogger(CasinoServiceImpl.class);
 
@@ -56,8 +59,8 @@ public class CasinoServiceImpl implements CasinoService {
         }
 
         //randomize prize & winner
-        int prize = getCasinoInteger();
-        int participantIndex = getCasinoWinner(participants.size());
+        int prize = randomService.getOneRandomInt(1, 1000);
+        int participantIndex = randomService.getOneRandomInt(0, participants.size() - 1);
         Participant winner = participants.get(participantIndex);
 
         //create response
@@ -116,34 +119,26 @@ public class CasinoServiceImpl implements CasinoService {
         return new ResponseEntity<>(winnerListResponse, HttpStatus.OK);
     }
 
-    public int getCasinoWinner(int participants) {
-        return getOneRandomInt(0, participants - 1);
-    }
-
-    public int getCasinoInteger() {
-        return getOneRandomInt(1, 1000);
-    }
-
-    public int getOneRandomInt(int min, int max) {
-        Integer result;
-        try {
-            RestClient restClient = RestClient.create();
-            String uriTemplate = "https://www.random.org/integers/" +
-                    "?num=%s" +
-                    "&min=%s" +
-                    "&max=%s" +
-                    "&col=%s" +
-                    "&base=%s" +
-                    "&format=%s" +
-                    "&rnd=%s";
-            String uriResult = String.format(uriTemplate, 1, min, max, 1, 10, "plain", "new");
-            URI uri = new URI(uriResult);
-            String requestResult =restClient.get().uri(uri).retrieve().body(String.class).trim();
-            result = Integer.parseInt(requestResult);
-        } catch (Exception e) {
-            System.out.printf(e.getMessage());
-            result = min + (int) (Math.random() * (max - min));
-        }
-        return result;
-    }
+//    public int getOneRandomInt(int min, int max) {
+//        Integer result;
+//        try {
+//            RestClient restClient = RestClient.create();
+//            String uriTemplate = "https://www.random.org/integers/" +
+//                    "?num=%s" +
+//                    "&min=%s" +
+//                    "&max=%s" +
+//                    "&col=%s" +
+//                    "&base=%s" +
+//                    "&format=%s" +
+//                    "&rnd=%s";
+//            String uriResult = String.format(uriTemplate, 1, min, max, 1, 10, "plain", "new");
+//            URI uri = new URI(uriResult);
+//            String requestResult =restClient.get().uri(uri).retrieve().body(String.class).trim();
+//            result = Integer.parseInt(requestResult);
+//        } catch (Exception e) {
+//            System.out.printf(e.getMessage());
+//            result = min + (int) (Math.random() * (max - min));
+//        }
+//        return result;
+//    }
 }
