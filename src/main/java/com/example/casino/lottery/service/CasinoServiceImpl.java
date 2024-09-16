@@ -1,19 +1,19 @@
 package com.example.casino.lottery.service;
 
+import com.example.casino.lottery.controller.ParticipantDTO;
+import com.example.casino.lottery.controller.WinnerDTO;
 import com.example.casino.lottery.data.*;
-import com.example.casino.lottery.response.ParticipantListResponse;
-import com.example.casino.lottery.response.WinnerListResponse;
-import com.example.casino.lottery.response.WinnerResponse;
+import com.example.casino.lottery.controller.response.ParticipantListResponse;
+import com.example.casino.lottery.controller.response.WinnerListResponse;
+import com.example.casino.lottery.controller.response.WinnerResponse;
 import com.example.casino.random.service.RandomService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ public class CasinoServiceImpl implements CasinoService {
     @Autowired
     RandomService randomService;
 
-    Logger logger = LoggerFactory.getLogger(CasinoServiceImpl.class);
+//    Logger logger = LoggerFactory.getLogger(CasinoServiceImpl.class);
 
 
     @Override
@@ -84,7 +84,7 @@ public class CasinoServiceImpl implements CasinoService {
                         .findAllById(
                                 winnerList
                                         .stream()
-                                        .map(Winner::getId)
+                                        .map(Winner::getParticipantId)
                                         .toList()
                         )
                         .stream()
@@ -108,7 +108,7 @@ public class CasinoServiceImpl implements CasinoService {
         List<WinnerDTO> winnerDTOList = winnerList
                 .stream()
                 .map(winner -> {
-                    Participant participant = participantList.get(winner.getId());
+                    Participant participant = participantList.get(winner.getParticipantId());
                     return new WinnerDTO(participant, winner.getPrize());
                 }).toList();
 

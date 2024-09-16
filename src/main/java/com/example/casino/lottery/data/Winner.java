@@ -5,14 +5,23 @@ import org.springframework.data.annotation.Id;
 public class Winner {
     @Id
     String id;
+    String participantId;
     int prize;
 
     public Winner() {
     }
 
-    public Winner(String id, int prize) {
-        this.id = id;
+    public Winner(String participantId, int prize) {
+        this.participantId = participantId;
         this.prize = prize;
+    }
+
+    public String getParticipantId() {
+        return participantId;
+    }
+
+    public void setParticipantId(String participantId) {
+        this.participantId = participantId;
     }
 
     public String getId() {
@@ -35,6 +44,7 @@ public class Winner {
     public String toString() {
         return "Winner{" +
                 "id='" + id + '\'' +
+                ", participantId='" + participantId + '\'' +
                 ", prize=" + prize +
                 '}';
     }

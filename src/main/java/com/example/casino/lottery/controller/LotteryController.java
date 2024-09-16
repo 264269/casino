@@ -1,9 +1,9 @@
 package com.example.casino.lottery.controller;
 
-import com.example.casino.lottery.request.AddParticipantRequest;
-import com.example.casino.lottery.response.ParticipantListResponse;
-import com.example.casino.lottery.response.WinnerListResponse;
-import com.example.casino.lottery.response.WinnerResponse;
+import com.example.casino.lottery.controller.request.AddParticipantRequest;
+import com.example.casino.lottery.controller.response.ParticipantListResponse;
+import com.example.casino.lottery.controller.response.WinnerListResponse;
+import com.example.casino.lottery.controller.response.WinnerResponse;
 import com.example.casino.lottery.service.CasinoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

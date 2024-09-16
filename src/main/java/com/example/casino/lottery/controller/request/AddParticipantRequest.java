@@ -1,4 +1,4 @@
-package com.example.casino.lottery.request;
+package com.example.casino.lottery.controller.request;
 
 public class AddParticipantRequest {
     public String getName() {

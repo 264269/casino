@@ -1,6 +1,6 @@
-package com.example.casino.lottery.response;
+package com.example.casino.lottery.controller.response;
 
-import com.example.casino.lottery.data.ParticipantDTO;
+import com.example.casino.lottery.controller.ParticipantDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

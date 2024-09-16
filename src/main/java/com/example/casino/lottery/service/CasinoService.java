@@ -1,8 +1,8 @@
 package com.example.casino.lottery.service;
 
-import com.example.casino.lottery.response.ParticipantListResponse;
-import com.example.casino.lottery.response.WinnerListResponse;
-import com.example.casino.lottery.response.WinnerResponse;
+import com.example.casino.lottery.controller.response.ParticipantListResponse;
+import com.example.casino.lottery.controller.response.WinnerListResponse;
+import com.example.casino.lottery.controller.response.WinnerResponse;
 import org.springframework.http.ResponseEntity;
 
 public interface CasinoService {
