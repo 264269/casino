@@ -1,11 +1,15 @@
 package com.example.casino.lottery.data;
 
 import jakarta.validation.constraints.NotNull;
+import org.bson.codecs.IdGenerator;
+import org.bson.codecs.pojo.IdGenerators;
 import org.springframework.data.annotation.Id;
+
+import java.util.Objects;
 
 public class Participant {
     @Id
-    private String id;
+    private String id = IdGenerators.STRING_ID_GENERATOR.generate();
     @NotNull
     private String name;
     @NotNull
@@ -56,5 +60,23 @@ public class Participant {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Participant that = (Participant) o;
+        return age == that.age && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(city, that.city);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(id);
+        result = 31 * result + Objects.hashCode(name);
+        result = 31 * result + age;
+        result = 31 * result + Objects.hashCode(city);
+        return result;
     }
 }

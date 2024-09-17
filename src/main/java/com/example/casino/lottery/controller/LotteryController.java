@@ -33,7 +33,7 @@ public class LotteryController {
     //done
     @GetMapping("/participant")
     public ResponseEntity<ParticipantListResponse> getParticipants() {
-        ParticipantListResponse participantList = casinoService.getParticipantList();
+        ParticipantListResponse participantList = casinoService.getParticipantListResponse();
         if (participantList == null)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(participantList, HttpStatus.OK);
@@ -42,7 +42,7 @@ public class LotteryController {
     //done
     @GetMapping("/start")
     public ResponseEntity<WinnerResponse> getWinner() {
-        WinnerResponse winner = casinoService.getWinner();
+        WinnerResponse winner = casinoService.getWinnerResponse();
         if (winner == null)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(winner, HttpStatus.OK);
@@ -50,7 +50,7 @@ public class LotteryController {
 
     @GetMapping("/winners")
     public ResponseEntity<WinnerListResponse> getWinners() {
-        WinnerListResponse winnerList = casinoService.getWinnerList();
+        WinnerListResponse winnerList = casinoService.getWinnerListResponse();
         if (winnerList == null)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(winnerList, HttpStatus.OK);

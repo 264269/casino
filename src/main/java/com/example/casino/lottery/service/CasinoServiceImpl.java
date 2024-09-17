@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class CasinoServiceImpl implements CasinoService {
+public class  CasinoServiceImpl implements CasinoService {
     @Autowired
     ParticipantRepository participantRepository;
     @Autowired
@@ -33,7 +33,7 @@ public class CasinoServiceImpl implements CasinoService {
     }
 
     @Override
-    public ParticipantListResponse getParticipantList() {
+    public ParticipantListResponse getParticipantListResponse() {
         //get all
         List<Participant> participantList = participantRepository.findAll();
 
@@ -44,7 +44,7 @@ public class CasinoServiceImpl implements CasinoService {
     }
 
     @Override
-    public WinnerResponse getWinner() {
+    public WinnerResponse getWinnerResponse() {
         //check length
         List<Participant> participantList = participantRepository.findAll();
         if (participantList.size() < 2) {
@@ -65,7 +65,7 @@ public class CasinoServiceImpl implements CasinoService {
     }
 
     @Override
-    public WinnerListResponse getWinnerList() {
+    public WinnerListResponse getWinnerListResponse() {
         //get winners (id + prize)
         List<Winner> winnerList = winnerRepository.findAll();
 

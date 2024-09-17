@@ -7,7 +7,7 @@ import com.example.casino.lottery.data.Participant;
 
 public interface CasinoService {
     void addParticipant(Participant Participant);
-    ParticipantListResponse getParticipantList();
-    WinnerResponse getWinner();
-    WinnerListResponse getWinnerList();
+    ParticipantListResponse getParticipantListResponse();
+    WinnerResponse getWinnerResponse();
+    WinnerListResponse getWinnerListResponse();
 }
