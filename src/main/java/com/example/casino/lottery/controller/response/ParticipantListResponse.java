@@ -1,27 +1,33 @@
 package com.example.casino.lottery.controller.response;
 
-import com.example.casino.lottery.controller.ParticipantDTO;
+import com.example.casino.lottery.data.Participant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class ParticipantListResponse {
-
     @JsonProperty(value = "participants", required = true)
-    List<ParticipantDTO> participantList;
+    List<Participant> participantList;
 
     public ParticipantListResponse() {
     }
 
-    public ParticipantListResponse(List<ParticipantDTO> participantList) {
+    public ParticipantListResponse(List<Participant> participantList) {
         this.participantList = participantList;
     }
 
-    public List<ParticipantDTO> getParticipantList() {
+    public List<Participant> getParticipantList() {
         return participantList;
     }
 
-    public void setParticipantList(List<ParticipantDTO> participantList) {
+    public void setParticipantList(List<Participant> participantList) {
         this.participantList = participantList;
+    }
+
+    @Override
+    public String toString() {
+        return "ParticipantListResponse{" +
+                "participantList=" + participantList +
+                '}';
     }
 }

@@ -1,44 +1,58 @@
 package com.example.casino.lottery.controller;
 
-import com.example.casino.lottery.controller.request.AddParticipantRequest;
 import com.example.casino.lottery.controller.response.ParticipantListResponse;
 import com.example.casino.lottery.controller.response.WinnerListResponse;
 import com.example.casino.lottery.controller.response.WinnerResponse;
+import com.example.casino.lottery.data.Participant;
 import com.example.casino.lottery.service.CasinoService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
+@RequestMapping(path = "/lottery")
 public class LotteryController {
     private CasinoService casinoService;
+
+    Logger logger = LoggerFactory.getLogger(LotteryController.class);
 
     public LotteryController(CasinoService casinoService) {
         this.casinoService = casinoService;
     }
 
-    @PostMapping("/lottery/participant")
-    public void registerParticipant(@RequestBody AddParticipantRequest request) {
-        casinoService.addParticipant(
-                request.getName(),
-                request.getAge(),
-                request.getCity()
-        );
+    @PostMapping("/participant")
+    public ResponseEntity<Void> registerParticipant(@Valid @RequestBody Participant participant) {
+        casinoService.addParticipant(participant);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     //done
-    @GetMapping("/lottery/participant")
+    @GetMapping("/participant")
     public ResponseEntity<ParticipantListResponse> getParticipants() {
-        return casinoService.getParticipantList();
+        ParticipantListResponse participantList = casinoService.getParticipantList();
+        if (participantList == null)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(participantList, HttpStatus.OK);
     }
 
     //done
-    @GetMapping("/lottery/start")
-    public ResponseEntity<WinnerResponse> gamba() {
-        return casinoService.gamba();
+    @GetMapping("/start")
+    public ResponseEntity<WinnerResponse> getWinner() {
+        WinnerResponse winner = casinoService.getWinner();
+        if (winner == null)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(winner, HttpStatus.OK);
     }
 
-    @GetMapping("/lottery/winners")
+    @GetMapping("/winners")
     public ResponseEntity<WinnerListResponse> getWinners() {
-        return casinoService.getWinnerList();
+        WinnerListResponse winnerList = casinoService.getWinnerList();
+        if (winnerList == null)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(winnerList, HttpStatus.OK);
     }
 }

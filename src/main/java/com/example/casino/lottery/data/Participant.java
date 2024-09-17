@@ -1,12 +1,16 @@
 package com.example.casino.lottery.data;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 
 public class Participant {
     @Id
     private String id;
+    @NotNull
     private String name;
+    @NotNull
     private int age;
+    @NotNull
     private String city;
 
     public Participant() {
