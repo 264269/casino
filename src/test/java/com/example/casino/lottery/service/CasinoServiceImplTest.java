@@ -61,7 +61,7 @@ public class CasinoServiceImplTest {
         participantList.add(new Participant("Oleg", 25, "Moscow"));
         participantList.add(new Participant("Lola", 22, "Saint-Petersburg"));
         participantList.add(new Participant("Vanya", 34, "Krasnoyarsk"));
-        participantRepository.saveAll(participantList);
+        Mockito.when(participantRepository.findAll()).thenReturn(participantList);
         Assertions.assertIterableEquals(participantList, participantRepository.findAll());
     }
 
@@ -107,11 +107,15 @@ public class CasinoServiceImplTest {
         Winner w3 = new Winner(p3, 750);
         winnerResponseList.add(new WinnerResponse(p3, w3));
 
-//        Winner w4 = new Winner(p2, 1000);
-//        winnerResponseList.add(new WinnerResponse(p2, w4));
+        Winner w4 = new Winner(p2, 1000);
+        winnerResponseList.add(new WinnerResponse(p2, w4));
 
-        Mockito.when(winnerRepository.findAll()).thenReturn(List.of(w1, w2, w3));
-        Mockito.when(participantRepository.findAll()).thenReturn(List.of(p1, p2, p3));
+        List<Winner> winnerList = List.of(w1, w2, w3, w4);
+        List<String> ids = winnerList.stream().map(Winner::getParticipantId).toList();
+        Mockito.when(winnerRepository.findAll()).thenReturn(winnerList);
+
+        List<Participant> participantList = List.of(p1, p2, p3);
+        Mockito.when(participantRepository.findAllById(ids)).thenReturn(participantList);
 
         Assertions.assertIterableEquals(winnerResponseList, casinoService.getWinnerListResponse().getWinnerList());
     }
